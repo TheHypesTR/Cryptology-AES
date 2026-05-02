@@ -16,20 +16,25 @@ TEST_CORES = 4
 TARGET_FPS = 10
 VIDEO_PATH = 'aes_hd.mp4' 
 YOLO_MODEL = 'yolov8n-seg.pt'  
-AES_MODE = 'CTR' 
+AES_MODE = 'ECB' 
 AES_KEY = 128
 CRYPT_KEY = b'1453269852165512'
+# İstersen (640, 360) yapabilirsin. None kalırsa videonun orijinal boyutunu kullanır.
+TARGET_RESOLUTION = (1280, 720) 
 # ==========================================
 
 p = psutil.Process(os.getpid())
 p.cpu_affinity(list(range(TEST_CORES)))
 torch.set_num_threads(TEST_CORES)
 
-def encrypt_image_region(region):
+# CTR Zafiyetini engellemek için frame_id ve object_id parametreleri eklendi
+def encrypt_image_region(region, frame_id, object_id):
     raw_bytes = region.tobytes()
     
     if AES_MODE == 'CTR':
-        cipher = AES.new(CRYPT_KEY, AES.MODE_CTR, counter=Counter.new(AES_KEY))
+        # Her kare ve nesne için benzersiz bir başlangıç değeri (nonce) oluşturuyoruz
+        nonce = (frame_id << 16) | object_id
+        cipher = AES.new(CRYPT_KEY, AES.MODE_CTR, counter=Counter.new(128, initial_value=nonce))
         encrypted_bytes = cipher.encrypt(raw_bytes)
         
     elif AES_MODE == 'ECB':
@@ -61,11 +66,16 @@ print(f"--- TEST BAŞLADI ---")
 print(f"Kullanılan Çekirdek: {TEST_CORES}")
 print(f"Hedef FPS: {TARGET_FPS} (Orijinal: {original_fps})")
 print(f"Şifreleme Modu: AES-{AES_MODE}")
+print(f"Çözünürlük: {TARGET_RESOLUTION if TARGET_RESOLUTION else 'Orijinal'}")
 
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
         break
+
+    # Hedef çözünürlük belirtilmişse videoyu boyutlandır
+    if TARGET_RESOLUTION is not None:
+        frame = cv2.resize(frame, TARGET_RESOLUTION)
 
     frame_counter += 1
     if frame_counter % frame_skip_interval != 0:
@@ -87,8 +97,7 @@ while cap.isOpened():
         for i, mask in enumerate(masks):
             x1, y1, x2, y2 = boxes[i]
             
-            # 1. Bounding Box'ı Genişletme (Padding)
-            # Kutuyu her yönden 30 piksel dışa açarak sınırda kalan ayak/saç bölgelerini içeri alıyoruz.
+            # Bounding Box'ı Genişletme (Padding)
             p_val = 30
             x1 = max(0, x1 - p_val)
             y1 = max(0, y1 - p_val)
@@ -100,12 +109,10 @@ while cap.isOpened():
             mask_roi = mask_resized[y1:y2, x1:x2]
             human_roi = encrypted_frame[y1:y2, x1:x2]
             
-            # 2. Eşiği Düşürme
-            # Değeri esnetme yüzünden 0.5'in altına düşen sınır piksellerini yakalamak için eşiği 0.2 yapıyoruz
+            # Eşiği Düşürme (Bulanıklaşan sınır pikselleri için)
             bool_mask = mask_roi > 0.2
             
-            # 3. Maskeyi Şişirme (Dilation)
-            # Kameranın en altındaki o birkaç satırlık boşluğu kapatmak için maskeyi dışa doğru kalınlaştırıyoruz
+            # Maskeyi Şişirme (Dilation)
             bool_mask_uint8 = bool_mask.astype(np.uint8)
             kernel = np.ones((25, 25), np.uint8) 
             dilated_mask = cv2.dilate(bool_mask_uint8, kernel, iterations=1)
@@ -118,8 +125,8 @@ while cap.isOpened():
                 t_start_enc = time.perf_counter()
                 
                 total_encrypted_bytes += human_pixels.nbytes
-
-                encrypted_pixels = encrypt_image_region(human_pixels)
+                # Şifreleme fonksiyonuna frame_counter ve i değişkenlerini gönderiyoruz
+                encrypted_pixels = encrypt_image_region(human_pixels, frame_counter, i)
                 
                 t_end_enc = time.perf_counter()
                 frame_encryption_time += (t_end_enc - t_start_enc)
@@ -155,9 +162,20 @@ if processed_frame_count > 0:
     total_mb = total_encrypted_bytes / (1024 * 1024)
     throughput_mb_s = total_mb / total_encryption_time if total_encryption_time > 0 else 0
     
-    print("\n--- TEST SONUÇLARI ---")
-    print(f"Toplam İşlenen Kare: {processed_frame_count}")
-    print(f"Kare Başına Ortalama Toplam İşlem: {avg_proc_time:.2f} ms")
-    print(f"Kare Başına Ortalama AES Şifreleme: {avg_enc_time:.2f} ms")
-    print(f"Toplam Şifrelenen Veri: {total_mb:.2f} MB")
-    print(f"Şifreleme Verimi (Throughput): {throughput_mb_s:.2f} MB/s")
+    print("\n" + "="*45)
+    print("TEST SONUCU")
+    print("="*45)
+    print(f"[TEST PARAMETRELERİ]")
+    print(f"Model Tipi         : {'Segmentasyon' if '-seg' in YOLO_MODEL else 'Dikdörtgen (BBox)'}")
+    print(f"Çözünürlük         : {TARGET_RESOLUTION if TARGET_RESOLUTION else 'Orijinal'}")
+    print(f"Hedef FPS          : {TARGET_FPS} fps")
+    print(f"Şifreleme Modu     : AES-{AES_MODE}")
+    print(f"Kullanılan Çekirdek: {TEST_CORES}")
+    print("-" * 45)
+    print(f"[PERFORMANS METRİKLERİ]")
+    print(f"Toplam İşlenen Kare      : {processed_frame_count}")
+    print(f"Toplam Şifrelenen Veri   : {total_mb:.2f} MB")
+    print(f"Ortalama Toplam İşlem    : {avg_proc_time:.2f} ms/kare")
+    print(f"Ortalama AES Süresi      : {avg_enc_time:.2f} ms/kare")
+    print(f"Şifreleme Verimi (Hızı)  : {throughput_mb_s:.2f} MB/s")
+    print("="*45 + "\n")

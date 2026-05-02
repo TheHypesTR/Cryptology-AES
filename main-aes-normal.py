@@ -12,11 +12,11 @@ import torch
 # ==========================================
 # TEST KONFİGÜRASYONU
 # ==========================================
-TEST_CORES = 2
+TEST_CORES = 4
 TARGET_FPS = 10
-VIDEO_PATH = 'aes_fhd.mp4'
+VIDEO_PATH = 'aes_hd.mp4' 
 YOLO_MODEL = 'yolov8n.pt' # 'yolov8n.pt'/'yolov8s.pt' / 'yolov8n-seg.pt'/'yolov8s-seg.pt' 
-AES_MODE = 'ECB' # 'CTR'/'ECB'
+AES_MODE = 'CTR' # 'CTR'/'ECB'
 AES_KEY = 128
 CRYPT_KEY = b'1453269852165529'
 # ==========================================
@@ -60,6 +60,7 @@ frame_counter = 0
 processed_frame_count = 0
 total_processing_time = 0
 total_encryption_time = 0
+total_encrypted_bytes = 0
 
 print(f"--- TEST BAŞLADI ---")
 print(f"Kullanılan Çekirdek: {TEST_CORES}")

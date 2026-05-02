@@ -14,11 +14,11 @@ import torch
 # ==========================================
 TEST_CORES = 4
 TARGET_FPS = 10
-VIDEO_PATH = 'aes_fhd.mp4' 
+VIDEO_PATH = 'aes_hd.mp4' 
 YOLO_MODEL = 'yolov8n-seg.pt'  
-AES_MODE = 'ECB' 
-AES_KEY = 256
-CRYPT_KEY = b'14532698521655291453269852165529'
+AES_MODE = 'CTR' 
+AES_KEY = 128
+CRYPT_KEY = b'1453269852165512'
 # ==========================================
 
 p = psutil.Process(os.getpid())
@@ -55,6 +55,7 @@ frame_counter = 0
 processed_frame_count = 0
 total_processing_time = 0
 total_encryption_time = 0
+total_encrypted_bytes = 0
 
 print(f"--- TEST BAŞLADI ---")
 print(f"Kullanılan Çekirdek: {TEST_CORES}")
@@ -116,6 +117,8 @@ while cap.isOpened():
                 
                 t_start_enc = time.perf_counter()
                 
+                total_encrypted_bytes += human_pixels.nbytes
+
                 encrypted_pixels = encrypt_image_region(human_pixels)
                 
                 t_end_enc = time.perf_counter()
@@ -149,8 +152,12 @@ cv2.destroyAllWindows()
 if processed_frame_count > 0:
     avg_proc_time = (total_processing_time / processed_frame_count) * 1000
     avg_enc_time = (total_encryption_time / processed_frame_count) * 1000
+    total_mb = total_encrypted_bytes / (1024 * 1024)
+    throughput_mb_s = total_mb / total_encryption_time if total_encryption_time > 0 else 0
     
     print("\n--- TEST SONUÇLARI ---")
     print(f"Toplam İşlenen Kare: {processed_frame_count}")
     print(f"Kare Başına Ortalama Toplam İşlem: {avg_proc_time:.2f} ms")
     print(f"Kare Başına Ortalama AES Şifreleme: {avg_enc_time:.2f} ms")
+    print(f"Toplam Şifrelenen Veri: {total_mb:.2f} MB")
+    print(f"Şifreleme Verimi (Throughput): {throughput_mb_s:.2f} MB/s")

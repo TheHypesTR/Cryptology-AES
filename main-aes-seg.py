@@ -3,54 +3,42 @@ import numpy as np
 from ultralytics import YOLO
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
-from Crypto.Util.Padding import pad # ECB padding için eklendi
+from Crypto.Util.Padding import pad
 import time
 import psutil
 import os
 import torch
 
-# ==========================================
-# TEST KONFİGÜRASYONU
-# ==========================================
-TEST_CORES = 12
+TEST_CORES = 1
 TARGET_FPS = 20
-VIDEO_PATH = 'aes_hd.mp4'
-YOLO_MODEL = 'yolov8n-seg.pt' # 'yolov8n.pt'/'yolov8s.pt' / 'yolov8n-seg.pt'/'yolov8s-seg.pt' 
-AES_MODE = 'ECB' # 'CTR'/'ECB'
+VIDEO_PATH = 'aes_vga_480p.mp4' 
+YOLO_MODEL = 'yolov8n-seg.pt'  
+AES_MODE = 'CTR' 
 AES_KEY = 128
-CRYPT_KEY = b'1453269852165529'
-# ==========================================
+CRYPT_KEY = b'1453269852165512'
+TARGET_RESOLUTION = None
 
 p = psutil.Process(os.getpid())
 p.cpu_affinity(list(range(TEST_CORES)))
 torch.set_num_threads(TEST_CORES)
 
-
-def encrypt_image_region(region):
+def encrypt_image_region(region, frame_id, object_id):
     raw_bytes = region.tobytes()
-    
     if AES_MODE == 'CTR':
-        cipher = AES.new(CRYPT_KEY, AES.MODE_CTR, counter=Counter.new(AES_KEY))
+        nonce = (frame_id << 16) | object_id
+        cipher = AES.new(CRYPT_KEY, AES.MODE_CTR, counter=Counter.new(128, initial_value=nonce))
         encrypted_bytes = cipher.encrypt(raw_bytes)
-        
     elif AES_MODE == 'ECB':
         cipher = AES.new(CRYPT_KEY, AES.MODE_ECB)
-        # ECB 16 byte bloklar ister. Bu yüzden veriyi pad'liyoruz.
         padded_bytes = pad(raw_bytes, AES.block_size)
         encrypted_padded = cipher.encrypt(padded_bytes)
-        # Görüntü matrisinin bozulmaması için fazlalığı (padding kadar olan kısmı) atıyoruz
         encrypted_bytes = encrypted_padded[:len(raw_bytes)]
-
-    # Byte dizisini tekrar görüntü matrisine çevir (Orijinal boyutlarla)
     encrypted_region = np.frombuffer(encrypted_bytes, dtype=np.uint8).reshape(region.shape)
     return encrypted_region
 
-# YOLO modelini yükle
 model = YOLO(YOLO_MODEL) 
-
 cap = cv2.VideoCapture(VIDEO_PATH)
-
-cv2.namedWindow('Sol: Orijinal | Sag: AES Sifreli', cv2.WINDOW_NORMAL)
+cv2.namedWindow('Orijinal | AES-' + AES_MODE, cv2.WINDOW_NORMAL)
 
 original_fps = cap.get(cv2.CAP_PROP_FPS)
 if original_fps == 0: original_fps = 30
@@ -60,16 +48,21 @@ frame_counter = 0
 processed_frame_count = 0
 total_processing_time = 0
 total_encryption_time = 0
+total_encrypted_bytes = 0
 
 print(f"--- TEST BAŞLADI ---")
 print(f"Kullanılan Çekirdek: {TEST_CORES}")
 print(f"Hedef FPS: {TARGET_FPS} (Orijinal: {original_fps})")
 print(f"Şifreleme Modu: AES-{AES_MODE}")
+print(f"Çözünürlük: {TARGET_RESOLUTION if TARGET_RESOLUTION else 'Orijinal'}")
 
 while cap.isOpened():
     ret, frame = cap.read()
     if not ret:
         break
+
+    if TARGET_RESOLUTION is not None:
+        frame = cv2.resize(frame, TARGET_RESOLUTION)
 
     frame_counter += 1
     if frame_counter % frame_skip_interval != 0:
@@ -78,47 +71,43 @@ while cap.isOpened():
     encrypted_frame = frame.copy()
     t_start_frame = time.perf_counter()
 
-    # YOLO ile tahmin yap (sınıf 0 = insan)
     results = model.predict(frame, classes=[0], verbose=False)
     frame_encryption_time = 0
 
     for r in results:
-        # Eğer karede maske (insan silüeti) yoksa atla
         if r.masks is None:
             continue
             
-        # YOLO'nun ürettiği maskeleri ve koordinatları al
         masks = r.masks.data.cpu().numpy()
         boxes = r.boxes.xyxy.cpu().numpy().astype(int)
 
         for i, mask in enumerate(masks):
             x1, y1, x2, y2 = boxes[i]
             
-            # YOLO maskeleri işlem hızı için düşük çözünürlüklü üretir, video boyutuna geri çekiyoruz
+            p_val = 30
+            x1 = max(0, x1 - p_val)
+            y1 = max(0, y1 - p_val)
+            x2 = min(frame.shape[1], x2 + p_val)
+            y2 = min(frame.shape[0], y2 + p_val)
+            
             mask_resized = cv2.resize(mask, (frame.shape[1], frame.shape[0]))
             
-            # Sadece dikdörtgen (ROI) içindeki maskeyi ve görüntü bölgesini alıyoruz
             mask_roi = mask_resized[y1:y2, x1:x2]
-            human_roi = encrypted_frame[y1:y2, x1:x2]
+            human_roi = encrypted_frame[y1:y2, x1:x2]            
+
+            bool_mask = mask_roi > 0.2            
+            bool_mask_uint8 = bool_mask.astype(np.uint8)
+            kernel = np.ones((25, 25), np.uint8) 
+            dilated_mask = cv2.dilate(bool_mask_uint8, kernel, iterations=1)
+            bool_mask = dilated_mask > 0
             
-            # Maske değeri 0.5'ten büyük olan yerler (insanın vücut pikselleri)
-            bool_mask = mask_roi > 0.5
-            
-            # Eğer maske içinde geçerli piksel varsa şifrele
             if np.any(bool_mask):
-                # 1. NumPy ile sadece insana ait pikselleri filtreleyip çekiyoruz (1D dizi olur)
                 human_pixels = human_roi[bool_mask]
-                
-                # 2. Şifreleme işlemini başlat
                 t_start_enc = time.perf_counter()
-                
-                # Şifreleme fonksiyonumuz bu pikselleri alıp şifreleyip aynı düzende geri verecek
-                encrypted_pixels = encrypt_image_region(human_pixels)
-                
+                total_encrypted_bytes += human_pixels.nbytes
+                encrypted_pixels = encrypt_image_region(human_pixels, frame_counter, i)
                 t_end_enc = time.perf_counter()
                 frame_encryption_time += (t_end_enc - t_start_enc)
-                
-                # 3. Şifrelenmiş pikselleri maske koordinatlarına göre tam yerlerine geri yapıştırıyoruz
                 human_roi[bool_mask] = encrypted_pixels
 
     t_end_frame = time.perf_counter()
@@ -131,13 +120,12 @@ while cap.isOpened():
     fps_achieved = 1.0 / frame_processing_time if frame_processing_time > 0 else 0
     enc_ms = frame_encryption_time * 1000
     
-    # Ekrana yazdırılan metinler
     cv2.putText(encrypted_frame, f"Mode: AES-{AES_MODE} | Cores: {TEST_CORES}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     cv2.putText(encrypted_frame, f"Process FPS: {fps_achieved:.1f} / {TARGET_FPS}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     cv2.putText(encrypted_frame, f"AES Time: {enc_ms:.2f} ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 0, 0), 2)
 
     combined_frame = np.hstack((frame, encrypted_frame))
-    cv2.imshow('Sol: Orijinal | Sag: AES Sifreli', combined_frame)
+    cv2.imshow('Orijinal | AES-' + AES_MODE, combined_frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -148,8 +136,23 @@ cv2.destroyAllWindows()
 if processed_frame_count > 0:
     avg_proc_time = (total_processing_time / processed_frame_count) * 1000
     avg_enc_time = (total_encryption_time / processed_frame_count) * 1000
+    total_mb = total_encrypted_bytes / (1024 * 1024)
+    throughput_mb_s = total_mb / total_encryption_time if total_encryption_time > 0 else 0
     
-    print("\n--- TEST SONUÇLARI ---")
-    print(f"Toplam İşlenen Kare: {processed_frame_count}")
-    print(f"Kare Başına Ortalama Toplam İşlem: {avg_proc_time:.2f} ms")
-    print(f"Kare Başına Ortalama AES Şifreleme: {avg_enc_time:.2f} ms")
+    print("\n" + "="*45)
+    print("TEST SONUCU")
+    print("="*45)
+    print(f"[TEST PARAMETRELERİ]")
+    print(f"Model Tipi         : {'Segmentasyon' if '-seg' in YOLO_MODEL else 'Dikdörtgen (BBox)'}")
+    print(f"Çözünürlük         : {TARGET_RESOLUTION if TARGET_RESOLUTION else 'Orijinal'}")
+    print(f"Hedef FPS          : {TARGET_FPS} fps")
+    print(f"Şifreleme Modu     : AES-{AES_MODE}")
+    print(f"Kullanılan Çekirdek: {TEST_CORES}")
+    print("-" * 45)
+    print(f"[PERFORMANS METRİKLERİ]")
+    print(f"Toplam İşlenen Kare      : {processed_frame_count}")
+    print(f"Toplam Şifrelenen Veri   : {total_mb:.2f} MB")
+    print(f"Ortalama Toplam İşlem    : {avg_proc_time:.2f} ms/kare")
+    print(f"Ortalama AES Süresi      : {avg_enc_time:.2f} ms/kare")
+    print(f"Şifreleme Verimi (Hızı)  : {throughput_mb_s:.2f} MB/s")
+    print("="*45 + "\n")

@@ -1,0 +1,686 @@
+OTOMATİK BATCH TEST BAŞLADI
+
+=============================================
+TEST SONUCU - 1
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 157.40 ms/kare
+Ortalama AES Süresi      : 0.41 ms/kare
+Şifreleme Verimi (Hızı)  : 1254.54 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 2
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 133.36 ms/kare
+Ortalama AES Süresi      : 0.54 ms/kare
+Şifreleme Verimi (Hızı)  : 966.22 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 3
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 135.10 ms/kare
+Ortalama AES Süresi      : 0.34 ms/kare
+Şifreleme Verimi (Hızı)  : 1513.40 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 4
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 135.11 ms/kare
+Ortalama AES Süresi      : 0.42 ms/kare
+Şifreleme Verimi (Hızı)  : 1220.45 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 5
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 93.20 ms/kare
+Ortalama AES Süresi      : 0.34 ms/kare
+Şifreleme Verimi (Hızı)  : 1505.04 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 6
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 177.83 MB
+Ortalama Toplam İşlem    : 92.31 ms/kare
+Ortalama AES Süresi      : 0.44 ms/kare
+Şifreleme Verimi (Hızı)  : 1171.82 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 7
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 134.53 ms/kare
+Ortalama AES Süresi      : 0.42 ms/kare
+Şifreleme Verimi (Hızı)  : 1237.79 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 8
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 133.38 ms/kare
+Ortalama AES Süresi      : 0.49 ms/kare
+Şifreleme Verimi (Hızı)  : 1052.44 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 9
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 134.54 ms/kare
+Ortalama AES Süresi      : 0.36 ms/kare
+Şifreleme Verimi (Hızı)  : 1444.61 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 10
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 134.47 ms/kare
+Ortalama AES Süresi      : 0.43 ms/kare
+Şifreleme Verimi (Hızı)  : 1186.16 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 11
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 96.89 ms/kare
+Ortalama AES Süresi      : 0.36 ms/kare
+Şifreleme Verimi (Hızı)  : 1435.79 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 12
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_vga_480p.mp4
+Çözünürlük         : 640 x 480
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 443.65 MB
+Ortalama Toplam İşlem    : 94.68 ms/kare
+Ortalama AES Süresi      : 0.44 ms/kare
+Şifreleme Verimi (Hızı)  : 1166.72 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 13
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 120.97 ms/kare
+Ortalama AES Süresi      : 0.87 ms/kare
+Şifreleme Verimi (Hızı)  : 1475.89 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 14
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 120.20 ms/kare
+Ortalama AES Süresi      : 0.96 ms/kare
+Şifreleme Verimi (Hızı)  : 1337.06 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 15
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 124.94 ms/kare
+Ortalama AES Süresi      : 0.78 ms/kare
+Şifreleme Verimi (Hızı)  : 1646.38 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 16
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 125.35 ms/kare
+Ortalama AES Süresi      : 0.85 ms/kare
+Şifreleme Verimi (Hızı)  : 1505.01 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 17
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 98.90 ms/kare
+Ortalama AES Süresi      : 0.77 ms/kare
+Şifreleme Verimi (Hızı)  : 1674.64 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 18
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 344
+Toplam Şifrelenen Veri   : 441.27 MB
+Ortalama Toplam İşlem    : 97.51 ms/kare
+Ortalama AES Süresi      : 0.87 ms/kare
+Şifreleme Verimi (Hızı)  : 1479.38 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 19
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.49 MB
+Ortalama Toplam İşlem    : 119.93 ms/kare
+Ortalama AES Süresi      : 0.90 ms/kare
+Şifreleme Verimi (Hızı)  : 1424.39 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 20
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.49 MB
+Ortalama Toplam İşlem    : 118.54 ms/kare
+Ortalama AES Süresi      : 0.97 ms/kare
+Şifreleme Verimi (Hızı)  : 1320.57 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 21
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.48 MB
+Ortalama Toplam İşlem    : 122.44 ms/kare
+Ortalama AES Süresi      : 0.94 ms/kare
+Şifreleme Verimi (Hızı)  : 1371.23 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 22
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.48 MB
+Ortalama Toplam İşlem    : 122.14 ms/kare
+Ortalama AES Süresi      : 1.02 ms/kare
+Şifreleme Verimi (Hızı)  : 1258.56 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 23
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.48 MB
+Ortalama Toplam İşlem    : 94.52 ms/kare
+Ortalama AES Süresi      : 0.85 ms/kare
+Şifreleme Verimi (Hızı)  : 1505.02 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 24
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_hd.mp4
+Çözünürlük         : 1280 x 720
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 861
+Toplam Şifrelenen Veri   : 1107.48 MB
+Ortalama Toplam İşlem    : 95.35 ms/kare
+Ortalama AES Süresi      : 0.90 ms/kare
+Şifreleme Verimi (Hızı)  : 1435.72 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 25
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 141.70 ms/kare
+Ortalama AES Süresi      : 2.54 ms/kare
+Şifreleme Verimi (Hızı)  : 1067.25 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 26
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 141.54 ms/kare
+Ortalama AES Süresi      : 2.22 ms/kare
+Şifreleme Verimi (Hızı)  : 1221.74 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 27
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 147.30 ms/kare
+Ortalama AES Süresi      : 2.45 ms/kare
+Şifreleme Verimi (Hızı)  : 1106.70 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 28
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 147.39 ms/kare
+Ortalama AES Süresi      : 2.19 ms/kare
+Şifreleme Verimi (Hızı)  : 1237.77 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 29
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 118.68 ms/kare
+Ortalama AES Süresi      : 2.42 ms/kare
+Şifreleme Verimi (Hızı)  : 1117.75 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 30
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 10 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 431
+Toplam Şifrelenen Veri   : 1166.93 MB
+Ortalama Toplam İşlem    : 118.56 ms/kare
+Ortalama AES Süresi      : 2.13 ms/kare
+Şifreleme Verimi (Hızı)  : 1272.32 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 31
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 141.10 ms/kare
+Ortalama AES Süresi      : 2.48 ms/kare
+Şifreleme Verimi (Hızı)  : 1091.25 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 32
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 1
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 141.04 ms/kare
+Ortalama AES Süresi      : 2.19 ms/kare
+Şifreleme Verimi (Hızı)  : 1237.58 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 33
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 147.39 ms/kare
+Ortalama AES Süresi      : 2.72 ms/kare
+Şifreleme Verimi (Hızı)  : 994.09 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 34
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 2
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 147.44 ms/kare
+Ortalama AES Süresi      : 2.35 ms/kare
+Şifreleme Verimi (Hızı)  : 1150.44 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 35
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-ECB
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 122.02 ms/kare
+Ortalama AES Süresi      : 2.57 ms/kare
+Şifreleme Verimi (Hızı)  : 1054.12 MB/s
+=============================================
+
+=============================================
+TEST SONUCU - 36
+=============================================
+[TEST PARAMETRELERİ]
+Model Tipi         : Segmentasyon
+Video Dosyası      : aes_fhd.mp4
+Çözünürlük         : 1920 x 1080
+Hedef FPS          : 20 fps
+Şifreleme Modu     : AES-CTR
+Kullanılan Çekirdek: 4
+---------------------------------------------
+[PERFORMANS METRİKLERİ]
+Toplam İşlenen Kare      : 862
+Toplam Şifrelenen Veri   : 2332.04 MB
+Ortalama Toplam İşlem    : 122.08 ms/kare
+Ortalama AES Süresi      : 2.29 ms/kare
+Şifreleme Verimi (Hızı)  : 1182.80 MB/s
+=============================================
+

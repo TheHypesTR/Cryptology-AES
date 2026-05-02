@@ -1,4 +1,8 @@
-OTOMATİK BATCH TEST BAŞLADI
+Test Bilgisayarı: Lenovo LOQ 15IRH8.
+İşlemci: Intel Core i5-12450H (8 Çekirdek, 12 Thread).
+Ekran Kartı: NVIDIA GeForce RTX 4060 (8GB GDDR6, 115W).
+RAM: 16 GB DDR5 4800MHz.
+İşletim Sistemi: Windows 11 (25H2).
 
 =============================================
 TEST SONUCU - 1

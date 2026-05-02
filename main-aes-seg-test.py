@@ -9,48 +9,36 @@ import psutil
 import os
 import torch
 
-# ==========================================
-# TEST KONFİGÜRASYONU
-# ==========================================
-TEST_CORES = 4
-TARGET_FPS = 10
-VIDEO_PATH = 'aes_hd.mp4' 
+TEST_CORES = 1
+TARGET_FPS = 20
+VIDEO_PATH = 'aes_vga_480p.mp4' 
 YOLO_MODEL = 'yolov8n-seg.pt'  
-AES_MODE = 'ECB' 
+AES_MODE = 'CTR' 
 AES_KEY = 128
 CRYPT_KEY = b'1453269852165512'
-# İstersen (640, 360) yapabilirsin. None kalırsa videonun orijinal boyutunu kullanır.
-TARGET_RESOLUTION = (1280, 720) 
-# ==========================================
+TARGET_RESOLUTION = None
 
 p = psutil.Process(os.getpid())
 p.cpu_affinity(list(range(TEST_CORES)))
 torch.set_num_threads(TEST_CORES)
 
-# CTR Zafiyetini engellemek için frame_id ve object_id parametreleri eklendi
 def encrypt_image_region(region, frame_id, object_id):
     raw_bytes = region.tobytes()
-    
     if AES_MODE == 'CTR':
-        # Her kare ve nesne için benzersiz bir başlangıç değeri (nonce) oluşturuyoruz
         nonce = (frame_id << 16) | object_id
         cipher = AES.new(CRYPT_KEY, AES.MODE_CTR, counter=Counter.new(128, initial_value=nonce))
         encrypted_bytes = cipher.encrypt(raw_bytes)
-        
     elif AES_MODE == 'ECB':
         cipher = AES.new(CRYPT_KEY, AES.MODE_ECB)
         padded_bytes = pad(raw_bytes, AES.block_size)
         encrypted_padded = cipher.encrypt(padded_bytes)
         encrypted_bytes = encrypted_padded[:len(raw_bytes)]
-
     encrypted_region = np.frombuffer(encrypted_bytes, dtype=np.uint8).reshape(region.shape)
     return encrypted_region
 
 model = YOLO(YOLO_MODEL) 
-
 cap = cv2.VideoCapture(VIDEO_PATH)
-
-cv2.namedWindow('Sol: Orijinal | Sag: AES Sifreli', cv2.WINDOW_NORMAL)
+cv2.namedWindow('Orijinal | AES-' + AES_MODE, cv2.WINDOW_NORMAL)
 
 original_fps = cap.get(cv2.CAP_PROP_FPS)
 if original_fps == 0: original_fps = 30
@@ -73,7 +61,6 @@ while cap.isOpened():
     if not ret:
         break
 
-    # Hedef çözünürlük belirtilmişse videoyu boyutlandır
     if TARGET_RESOLUTION is not None:
         frame = cv2.resize(frame, TARGET_RESOLUTION)
 
@@ -97,7 +84,6 @@ while cap.isOpened():
         for i, mask in enumerate(masks):
             x1, y1, x2, y2 = boxes[i]
             
-            # Bounding Box'ı Genişletme (Padding)
             p_val = 30
             x1 = max(0, x1 - p_val)
             y1 = max(0, y1 - p_val)
@@ -107,30 +93,21 @@ while cap.isOpened():
             mask_resized = cv2.resize(mask, (frame.shape[1], frame.shape[0]))
             
             mask_roi = mask_resized[y1:y2, x1:x2]
-            human_roi = encrypted_frame[y1:y2, x1:x2]
-            
-            # Eşiği Düşürme (Bulanıklaşan sınır pikselleri için)
-            bool_mask = mask_roi > 0.2
-            
-            # Maskeyi Şişirme (Dilation)
+            human_roi = encrypted_frame[y1:y2, x1:x2]            
+
+            bool_mask = mask_roi > 0.2            
             bool_mask_uint8 = bool_mask.astype(np.uint8)
             kernel = np.ones((25, 25), np.uint8) 
             dilated_mask = cv2.dilate(bool_mask_uint8, kernel, iterations=1)
-            
             bool_mask = dilated_mask > 0
             
             if np.any(bool_mask):
                 human_pixels = human_roi[bool_mask]
-                
                 t_start_enc = time.perf_counter()
-                
                 total_encrypted_bytes += human_pixels.nbytes
-                # Şifreleme fonksiyonuna frame_counter ve i değişkenlerini gönderiyoruz
                 encrypted_pixels = encrypt_image_region(human_pixels, frame_counter, i)
-                
                 t_end_enc = time.perf_counter()
                 frame_encryption_time += (t_end_enc - t_start_enc)
-                
                 human_roi[bool_mask] = encrypted_pixels
 
     t_end_frame = time.perf_counter()
@@ -148,7 +125,7 @@ while cap.isOpened():
     cv2.putText(encrypted_frame, f"AES Time: {enc_ms:.2f} ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 0, 0), 2)
 
     combined_frame = np.hstack((frame, encrypted_frame))
-    cv2.imshow('Sol: Orijinal | Sag: AES Sifreli', combined_frame)
+    cv2.imshow('Orijinal | AES-' + AES_MODE, combined_frame)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break

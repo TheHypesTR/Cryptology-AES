@@ -1,0 +1,23 @@
+AES (Advanced Encryption Standard) Kriptografik Mimarisinin Detayları:
+
+AES, Claude Shannon'ın "Confusion" (Şaşırtma) ve "Diffusion" (Dağıtma) prensiplerini uygulayan bir Substitution-Permutation Network (SPN) ağıdır. 128 bitlik (16 byte) veri bloklarını 4x4'lük bir matris (State Matrisi) üzerinde işler. AES-128 varyantı 10 tur (round) sürer.
+
+Anahtar Genişletme (Key Expansion): 
+AES, Rijndael anahtar çizelgesini kullanarak 128 bitlik orijinal anahtardan, her turda kullanılmak üzere 11 adet 128 bitlik alt anahtar (Round Key) üretir. 
+
+AES Tur İşlemleri (Round Transformations):
+Son tur hariç, her turda State matrisi üzerinde tam olarak 4 farklı matematiksel dönüşüm uygulanır:
+
+1. SubBytes (Bayt Değiştirme - Confusion): 
+Her bayt, doğrusal olmayan bir S-Box (Substitution Box) tablosundan geçirilerek başka bir bayta dönüştürülür. Bu işlem, anahtar ile şifreli metin arasındaki ilişkiyi karmaşıklaştırarak (Confusion) istatistiksel analiz saldırılarını engeller.
+
+2. ShiftRows (Satır Kaydırma - Diffusion): 
+State matrisinin satırları sola doğru döngüsel olarak kaydırılır. Birinci satır kaydırılmaz, ikinci satır 1 bayt, üçüncü satır 2 bayt, dördüncü satır 3 bayt sola kaydırılır. Bu, bir sütundaki verilerin diğer sütunlara dağılmasını (Diffusion) sağlar.
+
+3. MixColumns (Sütun Karıştırma - Diffusion): 
+Matrisin her bir sütunu, Galois Cismi GF(2^8) üzerinde sabit bir matris ile çarpılır. Bu işlem, sütundaki her baytın değerini diğer tüm baytlara bağlar. ShiftRows ile birlikte MixColumns, AES'in çok yüksek bir Çığ Etkisi (Avalanche Effect) üretmesini sağlar; girdideki 1 bitlik bir değişim, çıktının yarısını tamamen değiştirir.
+
+4. AddRoundKey (Tur Anahtarı Ekleme): 
+State matrisi, o tur için üretilen alt anahtar (Round Key) ile bit düzeyinde XOR işlemine tabi tutulur. Anahtarın şifreleme sürecine dahil olduğu tek adımdır.
+
+Son turda (10. tur) işlem yükünü azaltmak ve şifre çözme işlemini simetrik tutabilmek için MixColumns adımı atlanır.

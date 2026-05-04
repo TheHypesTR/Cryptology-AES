@@ -3,15 +3,12 @@ import numpy as np
 from ultralytics import YOLO
 from Crypto.Cipher import AES
 from Crypto.Util import Counter
-from Crypto.Util.Padding import pad # ECB padding için eklendi
+from Crypto.Util.Padding import pad
 import time
 import psutil
 import os
 import torch
 
-# ==========================================
-# TEST KONFİGÜRASYONU
-# ==========================================
 TEST_CORES = 4
 TARGET_FPS = 10
 VIDEO_PATH = 'aes_hd.mp4' 
@@ -19,7 +16,6 @@ YOLO_MODEL = 'yolov8n.pt' # 'yolov8n.pt'/'yolov8s.pt' / 'yolov8n-seg.pt'/'yolov8
 AES_MODE = 'CTR' # 'CTR'/'ECB'
 AES_KEY = 128
 CRYPT_KEY = b'1453269852165529'
-# ==========================================
 
 p = psutil.Process(os.getpid())
 p.cpu_affinity(list(range(TEST_CORES)))
@@ -45,7 +41,6 @@ def encrypt_image_region(region):
     encrypted_region = np.frombuffer(encrypted_bytes, dtype=np.uint8).reshape(region.shape)
     return encrypted_region
 
-# YOLO modelini yükle
 model = YOLO(YOLO_MODEL) 
 
 cap = cv2.VideoCapture(VIDEO_PATH)
@@ -106,8 +101,7 @@ while cap.isOpened():
 
     fps_achieved = 1.0 / frame_processing_time if frame_processing_time > 0 else 0
     enc_ms = frame_encryption_time * 1000
-    
-    # Ekrana yazdırılan metinler
+
     cv2.putText(encrypted_frame, f"Mode: AES-{AES_MODE} | Cores: {TEST_CORES}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     cv2.putText(encrypted_frame, f"Process FPS: {fps_achieved:.1f} / {TARGET_FPS}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
     cv2.putText(encrypted_frame, f"AES Time: {enc_ms:.2f} ms", (10, 90), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (200, 0, 0), 2)

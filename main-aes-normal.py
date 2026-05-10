@@ -13,7 +13,7 @@ TEST_CORES = 4
 TARGET_FPS = 10
 VIDEO_PATH = 'aes_hd.mp4' 
 YOLO_MODEL = 'yolov8n.pt' # 'yolov8n.pt'/'yolov8s.pt' / 'yolov8n-seg.pt'/'yolov8s-seg.pt' 
-AES_MODE = 'CTR' # 'CTR'/'ECB'
+AES_MODE = 'ECB' # 'CTR'/'ECB'
 AES_KEY = 128
 CRYPT_KEY = b'1453269852165529'
 

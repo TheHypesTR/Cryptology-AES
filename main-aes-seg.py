@@ -9,7 +9,7 @@ import psutil
 import os
 import torch
 
-TEST_CORES = 1
+TEST_CORES = 4
 TARGET_FPS = 20
 VIDEO_PATH = 'aes_vga_480p.mp4' 
 YOLO_MODEL = 'yolov8n-seg.pt'  
@@ -102,13 +102,15 @@ while cap.isOpened():
             bool_mask = dilated_mask > 0
             
             if np.any(bool_mask):
-                human_pixels = human_roi[bool_mask]
                 t_start_enc = time.perf_counter()
-                total_encrypted_bytes += human_pixels.nbytes
+                human_pixels = human_roi[bool_mask]
+                total_encrypted_bytes += human_pixels.nby
                 encrypted_pixels = encrypt_image_region(human_pixels, frame_counter, i)
+                
+                human_roi[bool_mask] = encrypted_pixels
                 t_end_enc = time.perf_counter()
                 frame_encryption_time += (t_end_enc - t_start_enc)
-                human_roi[bool_mask] = encrypted_pixels
+
 
     t_end_frame = time.perf_counter()
     frame_processing_time = t_end_frame - t_start_frame

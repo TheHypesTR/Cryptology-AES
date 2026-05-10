@@ -114,15 +114,15 @@ for video_path in VIDEO_PATHS_LIST:
                             bool_mask = dilated_mask > 0
                             
                             if np.any(bool_mask):
-                                human_pixels = human_roi[bool_mask]
-                                
                                 t_start_enc = time.perf_counter()
+                                human_pixels = human_roi[bool_mask]
                                 total_encrypted_bytes += human_pixels.nbytes
+
                                 encrypted_pixels = encrypt_image_region(human_pixels, frame_counter, i)
-                                t_end_enc = time.perf_counter()
                                 
-                                frame_encryption_time += (t_end_enc - t_start_enc)
                                 human_roi[bool_mask] = encrypted_pixels
+                                t_end_enc = time.perf_counter()
+                                frame_encryption_time += (t_end_enc - t_start_enc)
 
                     t_end_frame = time.perf_counter()
                     
